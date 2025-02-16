@@ -1,8 +1,21 @@
-import React from "react";
+import { React, useState } from "react";
 import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from "@mui/material";
 import InsertButton from "../InsertButton/InsertButton";
 
 const CustomTable = (props) => {
+  const [incomes, setIncomes] = useState([
+    {
+      name: "Job",
+      expected: 3000,
+      actual: 3500
+    },
+    {
+      name: "Bonuri de masa",
+      expected: 300,
+      actual: 200
+    }
+  ]);
+
   return (
     <Container maxWidth="sm">
       <TableContainer component={Paper} sx={{ backgroundColor: "#1e1e1e", color: "white", padding: 2 }}>
@@ -20,16 +33,22 @@ const CustomTable = (props) => {
           </TableHead>
 
           <TableBody>
-            <TableRow>
-              <TableCell sx={{ color: "white" }}>Job</TableCell>
-              <TableCell sx={{ color: "white" }}>3500</TableCell>
-              <TableCell sx={{ color: "white" }}>3600</TableCell>
-            </TableRow>
+            {
+              incomes.map((income) => {
+                return (
+                  <TableRow>
+                    <TableCell sx={{ color: "white" }}>{income.name}</TableCell>
+                    <TableCell sx={{ color: "white" }}>{income.actual}</TableCell>
+                    <TableCell sx={{ color: "white" }}>{income.expected}</TableCell>
+                  </TableRow>
+                )
+              })
+            }
           </TableBody>
         </Table>
       </TableContainer>
-      <InsertButton />
-    </Container>
+      <InsertButton list={incomes} setList={setIncomes} />
+    </Container >
   );
 };
 

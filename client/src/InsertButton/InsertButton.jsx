@@ -2,7 +2,18 @@ import React from "react";
 import { Button } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-const InsertButton = () => {
+const InsertButton = (props) => {
+  const onClickInsert = () => {
+    const newItem = {
+      name: "New item",
+      expected: 0,
+      actual: 0
+    }
+
+    let list = [...props.list, newItem]
+    props.setList(list)
+  }
+
   return (
     <Button
       variant="contained"
@@ -14,6 +25,7 @@ const InsertButton = () => {
         textTransform: "none", // Keep text case as is
         fontWeight: "bold",
       }}
+      onClick={onClickInsert}
     >
       Insert new entry
     </Button>
