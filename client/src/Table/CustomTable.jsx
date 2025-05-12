@@ -70,12 +70,12 @@ const CustomTable = (props) => {
 
   return (
     <Container maxWidth="sm">
-      <TableContainer component={Paper} sx={{ backgroundColor: "#1e1e1e", color: "white", padding: 2 }}>
+      <TableContainer component={Paper} sx={{ backgroundColor: "#1e1e1e", color: "white", padding: 2, overflowX: "auto" }}>
         <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
           {props.title}
         </Typography>
 
-        <Table sx={{ minWidth: 300 }} aria-label="income table">
+        <Table sx={{ width: "100%" }} aria-label="income table">
           <TableHead>
             <TableRow>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Name</TableCell>

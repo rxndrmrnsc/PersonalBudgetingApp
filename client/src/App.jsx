@@ -6,10 +6,8 @@ import MonthlyBudget from './MonthlyBudget/MonthlyBudget'
 
 export default function App() {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <MonthlyBudget />
-      </Box>
+    <Container maxWidth={false} sx={{ width: '100%', minWidth: '300px' }}>
+      <MonthlyBudget />
     </Container>
   );
 }
