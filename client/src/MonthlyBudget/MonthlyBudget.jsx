@@ -6,6 +6,11 @@ import CustomTable from '../Table/CustomTable'
 import BudgetPieChart from '../PieChart/BudgetPieChart'
 
 export default function MonthlyBudget(props) {
+    const incomeString = "Income";
+    const needsString = "Needs";
+    const wantsString = "Wants";
+    const savingsString = "Savings";
+
     const mockBuget = {
         income: [
             {
@@ -20,6 +25,44 @@ export default function MonthlyBudget(props) {
                 expected: 300,
                 actual: 200
             }
+        ],
+        expenses: {
+            needs: [
+                {
+                    id: 2,
+                    name: "Groceries",
+                    expected: 450,
+                    actual: 600
+                },
+                {
+                    id: 3,
+                    name: "Rent",
+                    expected: 2500,
+                    actual: 2500
+                }
+            ],
+            wants: [
+                {
+                    id: 4,
+                    name: "Eating out",
+                    expected: 250,
+                    actual: 400
+                },
+                {
+                    id: 5,
+                    name: "Rent",
+                    expected: 2500,
+                    actual: 2500
+                }
+            ]
+        },
+        savings: [
+            {
+                id: 6,
+                name: "Savings",
+                expected: 2500,
+                actual: 1500
+            },
         ]
     }
     const [checked, setChecked] = useState(false);
@@ -48,22 +91,33 @@ export default function MonthlyBudget(props) {
 
     const handleChange = (rows, section) => {
         let newBudget = { ...budget };
-        if (section === "Income") {
+        if (section === incomeString) {
             newBudget = {
-              ...budget,
-              income: rows,
+                ...budget,
+                income: rows,
             };
-          } else if (section === "Expenses") {
+        } else if (section === needsString) {
             newBudget = {
-              ...budget,
-              expenses: rows,
+                ...budget,
+                expenses: {
+                    needs: rows,
+                    wants: budget.expenses.wants
+                }
             };
-          } else if (section === "Savings") {
+        } else if (section === wantsString) {
             newBudget = {
-              ...budget,
-              savings: rows,
+                ...budget,
+                expenses: {
+                    needs: budget.expenses.needs,
+                    wants: rows
+                }
             };
-          }
+        } else if (section === savingsString) {
+            newBudget = {
+                ...budget,
+                savings: rows,
+            };
+        }
         console.log(newBudget)
 
         setBudget(newBudget)
@@ -126,41 +180,41 @@ export default function MonthlyBudget(props) {
             <Grid2 container rowSpacing={6} columnSpacing={4} columns={12}>
                 {/* Row 1: Income & Pie Chart placeholder */}
                 <Grid2 item size={6}>
-                    <CustomTable title="Income" rows={budget.income} changeRows={(rows) => handleChange(rows, "Income")} />
+                    <CustomTable title={incomeString} rows={budget.income} changeRows={(rows) => handleChange(rows, incomeString)} />
                 </Grid2>
                 <Grid2 item size={6}>
+                    <BudgetPieChart
+                        income={getTotal(budget.income)}
+                        needs={getTotal(budget.expenses.needs)}
+                        wants={getTotal(budget.expenses.wants)}
+                        savings={getTotal(budget.savings)}
+                    />
                     <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                         <Typography>Expected</Typography>
                         <AntSwitch inputProps={{ 'aria-label': 'ant design' }} checked={checked} onChange={handlePieChartChange} />
                         <Typography>Actual</Typography>
                     </Stack>
-                    <BudgetPieChart
-                        income={getTotal(budget.income)}
-                        needs={1000}
-                        wants={500}
-                        savings={350}
-                    />
                 </Grid2>
 
                 {/* Row 2: Expenses (Needs + Wants) */}
-                {/* <Grid2 item size={12}>
+                <Grid2 item size={12}>
                     <Typography variant="h5" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
                         Expenses
                     </Typography>
                 </Grid2>
                 <Grid2 item size={6}>
-                    <CustomTable title="Needs" rows={mockRows} />
+                    <CustomTable title={needsString} rows={budget.expenses.needs} changeRows={(rows) => handleChange(rows, needsString)} />
                 </Grid2>
                 <Grid2 item size={6}>
-                    <CustomTable title="Wants" rows={mockRows} />
-                </Grid2> */}
+                    <CustomTable title={wantsString} rows={budget.expenses.wants} changeRows={(rows) => handleChange(rows, wantsString)} />
+                </Grid2>
 
                 {/* Row 3: Savings */}
-                {/* <Grid2 item size={6}>
-                    <CustomTable title="Savings" rows={mockRows} />
+                <Grid2 item size={6}>
+                    <CustomTable title={savingsString} rows={budget.savings} changeRows={(rows) => handleChange(rows, savingsString)} />
                 </Grid2>
                 <Grid2 item size={6}>
-                </Grid2> */}
+                </Grid2>
 
 
                 {/* Row 4: Buttons */}

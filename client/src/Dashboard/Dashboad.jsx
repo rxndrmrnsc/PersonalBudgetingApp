@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Card, CardContent, Typography, Button, Grid2 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AddIcon from '@mui/icons-material/Add';
 
 const Dashboard = ({ budgets, onSelectBudget }) => {
   return (
@@ -10,6 +11,24 @@ const Dashboard = ({ budgets, onSelectBudget }) => {
       </Typography>
 
       <Grid2 container spacing={3}>
+        <Card sx={{ backgroundColor: '#1e1e1e', color: 'white' }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <AddIcon sx={{ mr: 1 }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Plan for next month?
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ backgroundColor: '#4f378b', '&:hover': { backgroundColor: '#3d2a6d' } }}
+              onClick={console.log("clicked")}
+            >
+              Create New Budget
+            </Button>
+          </CardContent>
+        </Card>
         {budgets.map((budget) => (
           <Grid2 item xs={12} sm={6} md={4} key={budget.id}>
             <Card sx={{ backgroundColor: '#1e1e1e', color: 'white' }}>

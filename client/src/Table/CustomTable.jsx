@@ -14,7 +14,7 @@ const CustomTable = (props) => {
   const rows = props.rows;
   const setRows = (rows) => props.changeRows(rows);
 
-  const idRef = useRef(1);
+  const idRef = useRef(100);
 
   const getNewId = () => {
     idRef.current += 1;

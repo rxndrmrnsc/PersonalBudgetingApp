@@ -1,7 +1,5 @@
 import { React, useState, useEffect } from "react";
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import MonthlyBudget from './MonthlyBudget/MonthlyBudget'
 import Dashboard from './Dashboard/Dashboad'
 
