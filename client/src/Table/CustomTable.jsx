@@ -8,11 +8,13 @@ import CloseIcon from "@mui/icons-material/Close";
 const CustomTable = (props) => {
   const [rows, setRows] = useState([
     {
+      id: 0,
       name: "Job",
       expected: 3000,
       actual: 3500
     },
     {
+      id: 1,
       name: "Bonuri de masa",
       expected: 300,
       actual: 200
@@ -21,20 +23,20 @@ const CustomTable = (props) => {
   const [editing, setEditing] = useState(-1); // -1 means no row is being edited
 
   useEffect(() => {
-    // TODO: check if this works + check if editing works
-  }, [rows]);
-
+    //Runs on the first render
+    //And any time any dependency value changes
+  }, [rows, editing]);
 
   const handleEdit = (id) => {
     setEditing(id);
   };
 
   const handleSave = (id, tempName, tempExpected, tempActual) => {
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row.id === id ? { ...row, name: tempName, expected: tempExpected, actual: tempActual } : row
-      )
-    );
+    console.log("Id: %d, Name: %s, Expected: %d, Actual: %d", id, tempName, tempExpected, tempActual)
+    var newRows = rows.map((row) => 
+      row.id === id ? { ...row, name: tempName, expected: tempExpected, actual: tempActual } : row
+  )
+    setRows(newRows);
     setEditing(-1);
   };
 
@@ -61,40 +63,40 @@ const CustomTable = (props) => {
 
           <TableBody>
             {
-              rows.map((income, index) => {
-                const isEditing = editing === index;
+              rows.map((income) => {
+                const isEditing = editing === income.id;
                 const [tempName, setTempName] = useState(income.name);
                 const [tempExpected, setTempExpected] = useState(income.expected);
                 const [tempActual, setTempActual] = useState(income.actual);
 
                 return (
-                  <TableRow key={index}>
+                  <TableRow key={income.id}>
                     {isEditing ? (
                       <>
                         <TableCell sx={{ color: "white" }}>
                           <TextField
-                            sx={{ color: "white" }}
+                            sx={{ input: { color: 'white' } }}
                             value={tempName}
                             onChange={(e) => setTempName(e.target.value)}
                           />
                         </TableCell>
                         <TableCell sx={{ color: "white" }}>
                           <TextField
-                            sx={{ color: "white" }}
-                            value={tempActual}
-                            onChange={(e) => setTempActual(e.target.value)}
-                          />
-                        </TableCell>
-                        <TableCell sx={{ color: "white" }}>
-                          <TextField
-                            sx={{ color: "white" }}
+                            sx={{ input: { color: 'white' } }}
                             value={tempExpected}
                             onChange={(e) => setTempExpected(e.target.value)}
                           />
                         </TableCell>
+                        <TableCell sx={{ color: "white" }}>
+                          <TextField
+                            sx={{ input: { color: 'white' } }}
+                            value={tempActual}
+                            onChange={(e) => setTempActual(e.target.value)}
+                          />
+                        </TableCell>
                         <TableCell align="right">
 
-                          <IconButton onClick={() => handleSave(index, tempName, tempExpected, tempActual)} color="success">
+                          <IconButton onClick={() => handleSave(income.id, tempName, tempExpected, tempActual)} color="success">
                             <CheckIcon />
                           </IconButton>
                           <IconButton onClick={handleCancel} color="error">
@@ -106,10 +108,10 @@ const CustomTable = (props) => {
                     ) : (
                       <>
                         <TableCell sx={{ color: "white" }}>{income.name}</TableCell>
-                        <TableCell sx={{ color: "white" }}>{income.actual}</TableCell>
                         <TableCell sx={{ color: "white" }}>{income.expected}</TableCell>
+                        <TableCell sx={{ color: "white" }}>{income.actual}</TableCell>
                         <TableCell align="right">
-                          <IconButton onClick={() => handleEdit(index)} color="primary">
+                          <IconButton onClick={() => handleEdit(income.id)} color="primary">
                             <EditIcon />
                           </IconButton>
                         </TableCell>
