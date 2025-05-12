@@ -1,9 +1,9 @@
-import { React, useState, useEffect } from "react";
-import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, IconButton, TextField } from "@mui/material";
+import { React, useState, useEffect, useRef } from "react";
+import { Button, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, IconButton, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import InsertButton from "../InsertButton/InsertButton";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const CustomTable = (props) => {
   const [rows, setRows] = useState([
@@ -21,6 +21,16 @@ const CustomTable = (props) => {
     }
   ]);
   const [editing, setEditing] = useState(-1); // -1 means no row is being edited
+  const [tempName, setTempName] = useState("");
+  const [tempExpected, setTempExpected] = useState(0);
+  const [tempActual, setTempActual] = useState(0);  
+
+  const idRef = useRef(1);
+
+  const getNewId = () => {
+    idRef.current += 1;
+    return idRef.current;
+  };
 
   useEffect(() => {
     //Runs on the first render
@@ -29,13 +39,17 @@ const CustomTable = (props) => {
 
   const handleEdit = (id) => {
     setEditing(id);
+    const row = rows.find(r => r.id === id);
+    setTempName(row.name);
+    setTempExpected(row.expected);
+    setTempActual(row.actual);
+    setEditing(id);
   };
 
   const handleSave = (id, tempName, tempExpected, tempActual) => {
-    console.log("Id: %d, Name: %s, Expected: %d, Actual: %d", id, tempName, tempExpected, tempActual)
-    var newRows = rows.map((row) => 
+    var newRows = rows.map((row) =>
       row.id === id ? { ...row, name: tempName, expected: tempExpected, actual: tempActual } : row
-  )
+    )
     setRows(newRows);
     setEditing(-1);
   };
@@ -43,6 +57,16 @@ const CustomTable = (props) => {
   const handleCancel = () => {
     setEditing(-1);
   };
+
+  const onClickInsert = () => {
+    const newItem = {
+      id: getNewId(),
+      name: "New item",
+      expected: 0,
+      actual: 0
+    }
+    setRows([...rows, newItem])
+  }
 
   return (
     <Container maxWidth="sm">
@@ -65,9 +89,6 @@ const CustomTable = (props) => {
             {
               rows.map((income) => {
                 const isEditing = editing === income.id;
-                const [tempName, setTempName] = useState(income.name);
-                const [tempExpected, setTempExpected] = useState(income.expected);
-                const [tempActual, setTempActual] = useState(income.actual);
 
                 return (
                   <TableRow key={income.id}>
@@ -95,7 +116,6 @@ const CustomTable = (props) => {
                           />
                         </TableCell>
                         <TableCell align="right">
-
                           <IconButton onClick={() => handleSave(income.id, tempName, tempExpected, tempActual)} color="success">
                             <CheckIcon />
                           </IconButton>
@@ -103,7 +123,6 @@ const CustomTable = (props) => {
                             <CloseIcon />
                           </IconButton>
                         </TableCell>
-
                       </>
                     ) : (
                       <>
@@ -117,16 +136,27 @@ const CustomTable = (props) => {
                         </TableCell>
                       </>
                     )}
-
-
                   </TableRow>
-                )
+                );
               })
             }
           </TableBody>
         </Table>
       </TableContainer>
-      <InsertButton list={rows} setList={setRows} />
+      <Button
+        variant="contained"
+        startIcon={<AddCircleOutlineIcon />}
+        sx={{
+          backgroundColor: "#4f378b",
+          color: "white",
+          "&:hover": { backgroundColor: "#3d2a6d" }, // Darker shade on hover
+          textTransform: "none", // Keep text case as is
+          fontWeight: "bold",
+        }}
+        onClick={onClickInsert}
+      >
+        Insert new entry
+      </Button>
     </Container >
   );
 };
