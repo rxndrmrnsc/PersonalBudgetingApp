@@ -7,11 +7,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const CustomTable = (props) => {
-  const [rows, setRows] = useState([]);
   const [editing, setEditing] = useState(-1); // -1 means no row is being edited
   const [tempName, setTempName] = useState("");
   const [tempExpected, setTempExpected] = useState(0);
   const [tempActual, setTempActual] = useState(0);
+  const rows = props.rows;
+  const setRows = (rows) => props.changeRows(rows);
 
   const idRef = useRef(1);
 
@@ -21,9 +22,7 @@ const CustomTable = (props) => {
   };
 
   useEffect(() => {
-    if (rows.length == 0)
-      setRows(props.rows)
-  }, [rows, editing]);
+  }, [editing]);
 
   const handleEdit = (id) => {
     setEditing(id);
@@ -32,6 +31,7 @@ const CustomTable = (props) => {
     setTempExpected(row.expected);
     setTempActual(row.actual);
     setEditing(id);
+    changeRowsParent(rows);
   };
 
   const handleSave = (id, tempName, tempExpected, tempActual) => {
