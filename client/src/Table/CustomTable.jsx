@@ -3,27 +3,15 @@ import { Button, Container, Table, TableBody, TableCell, TableContainer, TableHe
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const CustomTable = (props) => {
-  const [rows, setRows] = useState([
-    {
-      id: 0,
-      name: "Job",
-      expected: 3000,
-      actual: 3500
-    },
-    {
-      id: 1,
-      name: "Bonuri de masa",
-      expected: 300,
-      actual: 200
-    }
-  ]);
+  const [rows, setRows] = useState([]);
   const [editing, setEditing] = useState(-1); // -1 means no row is being edited
   const [tempName, setTempName] = useState("");
   const [tempExpected, setTempExpected] = useState(0);
-  const [tempActual, setTempActual] = useState(0);  
+  const [tempActual, setTempActual] = useState(0);
 
   const idRef = useRef(1);
 
@@ -33,8 +21,8 @@ const CustomTable = (props) => {
   };
 
   useEffect(() => {
-    //Runs on the first render
-    //And any time any dependency value changes
+    if (rows.length == 0)
+      setRows(props.rows)
   }, [rows, editing]);
 
   const handleEdit = (id) => {
@@ -66,6 +54,15 @@ const CustomTable = (props) => {
       actual: 0
     }
     setRows([...rows, newItem])
+  }
+
+  const handleDelete = (index) => {
+    let newRows = []
+    rows.forEach((row) => {
+      if(!row.id == index)
+        newRows = [...newRows, row]
+    })
+    setRows(newRows)
   }
 
   return (
@@ -132,6 +129,9 @@ const CustomTable = (props) => {
                         <TableCell align="right">
                           <IconButton onClick={() => handleEdit(income.id)} color="primary">
                             <EditIcon />
+                          </IconButton>
+                          <IconButton onClick={handleDelete} color="error">
+                            <DeleteIcon />
                           </IconButton>
                         </TableCell>
                       </>

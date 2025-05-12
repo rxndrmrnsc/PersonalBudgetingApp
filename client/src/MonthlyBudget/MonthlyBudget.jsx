@@ -4,7 +4,21 @@ import { Grid2, Typography, Box } from '@mui/material';
 import CustomTable from '../Table/CustomTable'
 
 export default function MonthlyBudget() {
-    const title = "January Budget";
+    const title = "January budget";
+    const mockRows = [
+        {
+            id: 0,
+            name: "Job",
+            expected: 3000,
+            actual: 3500
+        },
+        {
+            id: 1,
+            name: "Bonuri de masa",
+            expected: 300,
+            actual: 200
+        }
+    ]
 
     return (
         <Box maxWidth sx={{ padding: 2, width: '100%', minWidth: '300px', minHeight: '100vh' }}>
@@ -15,7 +29,7 @@ export default function MonthlyBudget() {
             <Grid2 container rowSpacing={6} columnSpacing={4} columns={12}>
                 {/* Row 1: Income & Pie Chart placeholder */}
                 <Grid2 item size={6}>
-                    <CustomTable title="Income" />
+                    <CustomTable title="Income" rows={mockRows} />
                 </Grid2>
                 <Grid2 item size={6}>
                     {/* Placeholder for pie chart */}
@@ -23,22 +37,21 @@ export default function MonthlyBudget() {
                 </Grid2>
 
                 {/* Row 2: Expenses (Needs + Wants) */}
-    
                 <Grid2 item size={12}>
-                <Typography variant="h5" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
-                    Expenses
-                </Typography>
+                    <Typography variant="h5" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
+                        Expenses
+                    </Typography>
                 </Grid2>
                 <Grid2 item size={6}>
-                    <CustomTable title="Needs" />
+                    <CustomTable title="Needs" rows={mockRows} />
                 </Grid2>
                 <Grid2 item size={6}>
-                    <CustomTable title="Wants" />
+                    <CustomTable title="Wants" rows={mockRows} />
                 </Grid2>
 
                 {/* Row 3: Savings */}
                 <Grid2 item size={6}>
-                    <CustomTable title="Savings" />
+                    <CustomTable title="Savings" rows={mockRows} />
                 </Grid2>
             </Grid2>
         </Box>
