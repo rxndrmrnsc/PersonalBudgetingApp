@@ -3,7 +3,7 @@ import { Box, Card, CardContent, Typography, Button, Grid2 } from '@mui/material
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AddIcon from '@mui/icons-material/Add';
 
-const Dashboard = ({ budgets, onSelectBudget }) => {
+const Dashboard = ({ budgets, onSelectBudget, setIsCreating, onCreateNewBudget }) => {
   return (
     <Box sx={{ padding: 4, minHeight: '100vh' }}>
       <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold', mb: 4 }}>
@@ -23,7 +23,7 @@ const Dashboard = ({ budgets, onSelectBudget }) => {
               variant="contained"
               fullWidth
               sx={{ backgroundColor: '#4f378b', '&:hover': { backgroundColor: '#3d2a6d' } }}
-              onClick={console.log("clicked")}
+              onClick={onCreateNewBudget}
             >
               Create New Budget
             </Button>

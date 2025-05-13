@@ -1,7 +1,8 @@
-import { React, useState, useEffect } from "react";
-import Container from '@mui/material/Container';
+import React, { useState } from 'react';
+import { Container } from '@mui/material';
 import MonthlyBudget from './MonthlyBudget/MonthlyBudget'
 import Dashboard from './Dashboard/Dashboad'
+import CreateBudgetPage from './CreateBudgetPage/CreateBudgetPage'
 
 export default function App() {
   const mockBudgets = [
@@ -11,19 +12,38 @@ export default function App() {
   ];
 
   const [activeBudgetId, setActiveBudgetId] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleSelectBudget = (id) => {
     setActiveBudgetId(id);
+    setIsCreating(false);
+  };
+
+  const handleCreateNewBudget = () => {
+    setIsCreating(true);
+    setActiveBudgetId(null);
+  };
+
+  const handleBackToDashboard = () => {
+    setIsCreating(false);
+    setActiveBudgetId(null);
   };
 
   return (
     <Container maxWidth={false} sx={{ width: '100%', minWidth: '300px' }}>
       <>
-        {activeBudgetId ? (
-          <MonthlyBudget budgetId={activeBudgetId} setActiveBudgetId={setActiveBudgetId} />
-        ) : (
-          <Dashboard budgets={mockBudgets} onSelectBudget={handleSelectBudget} />
-        )}
+        {
+          isCreating ? (
+            <CreateBudgetPage onBack={handleBackToDashboard} />
+          ) : (
+
+            activeBudgetId ? (
+              <MonthlyBudget budgetId={activeBudgetId} setActiveBudgetId={setActiveBudgetId} onBack={handleBackToDashboard} />
+            ) : (
+              <Dashboard budgets={mockBudgets} onSelectBudget={handleSelectBudget} onCreateNewBudget={handleCreateNewBudget} />
+            )
+          )
+        }
       </>
     </Container>
   );
