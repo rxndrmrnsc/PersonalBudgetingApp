@@ -3,7 +3,6 @@ package com.budgeting.backend.service;
 import com.budgeting.backend.model.entity.Budget;
 import com.budgeting.backend.repository.BudgetRepository;
 import com.budgeting.backend.resource.BudgetResource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ public class BudgetService {
     }
 
     public List<Budget> getAll() {
-        addBudget();
+        // addBudget();
         return budgetRepository.findAll();
     }
 
@@ -59,5 +58,6 @@ public class BudgetService {
                 .year(2025)
                 .month("January")
                 .build();
+        budgetRepository.save(budget);
     }
 }

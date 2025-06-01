@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/budgets")
-@CrossOrigin(origins = "*") // Allow CORS if frontend is separate
+@CrossOrigin(origins = "*") // Allow CORS
 public class BudgetResource {
 
     @Autowired
