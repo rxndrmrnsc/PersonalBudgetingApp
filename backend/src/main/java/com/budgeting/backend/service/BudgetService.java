@@ -21,23 +21,34 @@ public class BudgetService {
         this.budgetRepository = budgetRepository;
     }
 
-    public List<Budget> getAll() {
-        // addBudget();
-        return budgetRepository.findAll();
+    public List<Budget> getAll(String userId) {
+        addBudget();
+        return budgetRepository.findAllByUserId(userId)
+                .stream()
+                .toList();
     }
 
-    public ResponseEntity<Budget> getById(String id) {
-        return budgetRepository.findById(id)
+    public ResponseEntity<Budget> getById(String userId, String budgetId) {
+        Optional<Budget> budget = budgetRepository.findById(budgetId);
+
+        if (budget.isEmpty() || !budget.get().getUserId().equals(userId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return budget
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public Budget create(Budget budget, BudgetResource budgetResource) {
+    public Budget create(Budget budget) {
         return budgetRepository.save(budget);
     }
 
-    public ResponseEntity<Budget> update(String id, Budget updatedBudget, BudgetResource budgetResource) {
-        Optional<Budget> byId = budgetRepository.findById(id);
+    public ResponseEntity<Budget> update(String userId, String budgetId, Budget updatedBudget) {
+        Optional<Budget> byId = budgetRepository.findById(budgetId);
+        if (byId.isEmpty() || !byId.get().getUserId().equals(userId)) {
+            return ResponseEntity.notFound().build();
+        }
         return byId
                 .map(budget -> {
                     budget.setTitle(updatedBudget.getTitle());
@@ -47,22 +58,24 @@ public class BudgetService {
                     budget.setExpenses(updatedBudget.getExpenses());
                     budget.setSavings(updatedBudget.getSavings());
                     budgetRepository.save(budget);
-                    return ResponseEntity.ok(create(budget, budgetResource));
+                    return ResponseEntity.ok(create(budget));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Void> delete(String id) {
-        if (!budgetRepository.existsById(id)) {
+    public ResponseEntity<Void> delete(String userId, String budgetId) {
+        Optional<Budget> budget = budgetRepository.findById(budgetId);
+        if (budget.isEmpty() || !budget.get().getUserId().equals(userId)) {
             return ResponseEntity.notFound().build();
         }
-        budgetRepository.deleteById(id);
+        budgetRepository.deleteById(budgetId);
         return ResponseEntity.noContent().build();
     }
 
     public void addBudget() {
         Budget budget = Budget.builder()
                 .title("December Budget")
+                .userId("683c5b8e5179c85ea2c2c176")
                 .year(2025)
                 .month(Month.DECEMBER)
                 .creationDate(LocalDateTime.now())

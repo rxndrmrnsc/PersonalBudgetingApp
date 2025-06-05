@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-@Document("Budgets2")
+@Document("Budget")
 public class Budget {
     @Id
     private String id;
