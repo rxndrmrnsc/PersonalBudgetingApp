@@ -59,8 +59,10 @@ const CustomTable = (props) => {
   const handleDelete = (index) => {
     let newRows = []
     rows.forEach((row) => {
-      if(!row.id == index)
+      console.log(row, row.id, index)
+      if(!(row.id == index)) {
         newRows = [...newRows, row]
+      }
     })
     setRows(newRows)
   }
@@ -84,11 +86,11 @@ const CustomTable = (props) => {
 
           <TableBody>
             {
-              rows.map((income) => {
+              rows.map((income, index) => {
                 const isEditing = editing === income.id;
 
                 return (
-                  <TableRow key={income.id}>
+                  <TableRow key={index}>
                     {isEditing ? (
                       <>
                         <TableCell sx={{ color: "white" }}>
@@ -127,10 +129,10 @@ const CustomTable = (props) => {
                         <TableCell sx={{ color: "white" }}>{income.expected}</TableCell>
                         <TableCell sx={{ color: "white" }}>{income.actual}</TableCell>
                         <TableCell align="right">
-                          <IconButton onClick={() => handleEdit(income.id)} color="primary">
+                          <IconButton onClick={() => handleEdit(index)} color="primary">
                             <EditIcon />
                           </IconButton>
-                          <IconButton onClick={handleDelete} color="error">
+                          <IconButton onClick={() => handleDelete(index)} color="error">
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>

@@ -22,7 +22,7 @@ public class BudgetService {
     }
 
     public List<Budget> getAll(String userId) {
-        addBudget();
+        //addBudget();
         return budgetRepository.findAllByUserId(userId)
                 .stream()
                 .toList();

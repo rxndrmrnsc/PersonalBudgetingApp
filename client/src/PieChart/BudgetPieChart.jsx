@@ -5,9 +5,9 @@ import { teal, amber, orange, indigo } from '@mui/material/colors';
 
 const COLORS = [teal[600], amber[600], orange[600], indigo[600]];
 
-const BudgetPieChart = ({ income, needs, wants, savings }) => {
+const BudgetPieChart = ({ incomes, needs, wants, savings }) => {
   const data = [
-    { name: 'Income', value: income },
+    { name: 'Incomes', value: incomes },
     { name: 'Needs', value: needs },
     { name: 'Wants', value: wants },
     { name: 'Savings', value: savings },

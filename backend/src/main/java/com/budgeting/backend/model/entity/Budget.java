@@ -28,6 +28,6 @@ public class Budget {
     private List<BudgetItem> savings;
 
     public record Expenses(List<BudgetItem> needs,
-                           List<BudgetItem> expenses) {}
+                           List<BudgetItem> wants) {}
 }
 

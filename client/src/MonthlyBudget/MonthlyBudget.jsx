@@ -4,81 +4,31 @@ import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import CustomTable from '../Table/CustomTable'
 import BudgetPieChart from '../PieChart/BudgetPieChart'
+import { getBudgetById, updateBudget } from "../api/api";
 
 export default function MonthlyBudget(props) {
-    const incomeString = "Income";
+    const incomesString = "Incomes";
     const needsString = "Needs";
     const wantsString = "Wants";
     const savingsString = "Savings";
 
-    const mockBuget = {
-        income: [
-            {
-                id: 0,
-                name: "Job",
-                expected: 3000,
-                actual: 2000
-            },
-            {
-                id: 1,
-                name: "Bonuri de masa",
-                expected: 300,
-                actual: 200
-            }
-        ],
-        expenses: {
-            needs: [
-                {
-                    id: 2,
-                    name: "Groceries",
-                    expected: 450,
-                    actual: 600
-                },
-                {
-                    id: 3,
-                    name: "Rent",
-                    expected: 2500,
-                    actual: 2500
-                }
-            ],
-            wants: [
-                {
-                    id: 4,
-                    name: "Eating out",
-                    expected: 250,
-                    actual: 400
-                },
-                {
-                    id: 5,
-                    name: "Rent",
-                    expected: 2500,
-                    actual: 2500
-                }
-            ]
-        },
-        savings: [
-            {
-                id: 6,
-                name: "Savings",
-                expected: 2500,
-                actual: 1500
-            },
-        ]
-    }
     const [checked, setChecked] = useState(false);
-    const [budget, setBudget] = useState(mockBuget)
-    const title = props.budgetId + " budget";
+    const [budget, setBudget] = useState(props.budget);
+    const title = budget.title || "Monthly Budget";
 
     useEffect(() => {
-        console.log("Component re-rendered, budget is now:", budget);
     }, [checked, budget]);
 
     const handleReturn = () => {
-        props.setActiveBudgetId(null);
+        console.log("Saving budget:", budget);
+        updateBudget("683c5b8e5179c85ea2c2c176", props.budgetId, budget)
+        props.onBack();
     }
 
 
     const getTotal = (rows) => {
+        if (!rows || rows.length === 0) return 0;
+        if (rows.length === 1) return Number(rows[0][checked ? 'actual' : 'expected']);
         if (checked == false)
             return rows.reduce((sum, row) => sum + Number(row.expected), 0)
         else
@@ -91,10 +41,10 @@ export default function MonthlyBudget(props) {
 
     const handleChange = (rows, section) => {
         let newBudget = { ...budget };
-        if (section === incomeString) {
+        if (section === incomesString) {
             newBudget = {
                 ...budget,
-                income: rows,
+                incomes: rows,
             };
         } else if (section === needsString) {
             newBudget = {
@@ -118,7 +68,6 @@ export default function MonthlyBudget(props) {
                 savings: rows,
             };
         }
-        console.log(newBudget)
 
         setBudget(newBudget)
     }
@@ -178,13 +127,13 @@ export default function MonthlyBudget(props) {
                 {title}
             </Typography>
             <Grid2 container rowSpacing={6} columnSpacing={4} columns={12}>
-                {/* Row 1: Income & Pie Chart placeholder */}
+                {/* Row 1: Incomes & Pie Chart placeholder */}
                 <Grid2 item size={6}>
-                    <CustomTable title={incomeString} rows={budget.income} changeRows={(rows) => handleChange(rows, incomeString)} />
+                    <CustomTable title={incomesString} rows={budget.incomes} changeRows={(rows) => handleChange(rows, incomesString)} />
                 </Grid2>
                 <Grid2 item size={6}>
                     <BudgetPieChart
-                        income={getTotal(budget.income)}
+                        incomes={getTotal(budget.incomes)}
                         needs={getTotal(budget.expenses.needs)}
                         wants={getTotal(budget.expenses.wants)}
                         savings={getTotal(budget.savings)}
@@ -216,7 +165,6 @@ export default function MonthlyBudget(props) {
                 <Grid2 item size={6}>
                 </Grid2>
 
-
                 {/* Row 4: Buttons */}
                 <Grid2 item size={12}>
                     <Button
@@ -225,8 +173,8 @@ export default function MonthlyBudget(props) {
                         sx={{
                             backgroundColor: "#4f378b",
                             color: "white",
-                            "&:hover": { backgroundColor: "#3d2a6d" }, // Darker shade on hover
-                            textTransform: "none", // Keep text case as is
+                            "&:hover": { backgroundColor: "#3d2a6d" },
+                            textTransform: "none",
                             fontWeight: "bold",
                         }}
                         onClick={handleReturn}

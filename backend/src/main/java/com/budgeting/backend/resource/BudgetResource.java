@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/{userId}/budgets")
-@CrossOrigin(origins = "*") // Allow CORS
+//@CrossOrigin(origins = "http://localhost:5173") // Allow CORS
 public class BudgetResource {
 
     @Autowired
@@ -60,5 +60,4 @@ public class BudgetResource {
             @PathVariable String budgetId) {
         return budgetService.delete(userId, budgetId);
     }
-
 }
