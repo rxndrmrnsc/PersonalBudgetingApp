@@ -51,6 +51,15 @@ export default function App() {
     setIsCreating(false);
     setActiveBudgetId(null);
     setActiveBudget({});
+
+    getBudgets(USER_ID)
+    .then(res => {
+      setBudgets(res.data);
+    })
+    .catch(err => {
+      console.error('API error:', err);
+      setError('Failed to reload budgets.');
+    });
   };
 
   if (error) return <p>{error}</p>;

@@ -5,8 +5,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import dayjs from 'dayjs';
+import { createBudget } from '../api/api';
 
-const CreateBudgetPage = ( onBack ) => {
+const CreateBudgetPage = ( props ) => {
+  const USER_ID = "683c5b8e5179c85ea2c2c176";
+  const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+
   const [mode, setMode] = useState('blank');
   const [title, setTitle] = useState('July Budget');
   const [date, setDate] = useState(dayjs('2025-07-01'));
@@ -17,7 +21,16 @@ const CreateBudgetPage = ( onBack ) => {
 
   const handleCreate = () => {
     console.log('Creating new budget:', { mode, title, date });
-    // Submit logic here
+  
+    // Submit logic here 
+    createBudget(USER_ID, { title: title, month: monthNames[date.month()], year: date.year() })
+          .then(res => {
+            console.log('Budget created:', res.data);
+            props.onBack(); // Call the onBack prop to return to the dashboard
+          })
+          .catch(err => {
+            console.error('API error:', err);
+          });
   };
 
   return (

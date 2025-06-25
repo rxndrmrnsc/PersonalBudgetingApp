@@ -35,9 +35,14 @@ const Dashboard = ({ budgets, onSelectBudget, setIsCreating, onCreateNewBudget }
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <CalendarMonthIcon sx={{ mr: 1 }} />
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {budget.month} {budget.year}
-                  </Typography>
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {budget.title}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ color: 'gray' }}>
+                      {budget.month} {budget.year}
+                    </Typography>
+                  </Box>
                 </Box>
                 <Button
                   variant="contained"
