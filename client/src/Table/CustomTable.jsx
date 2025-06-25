@@ -11,8 +11,24 @@ const CustomTable = (props) => {
   const [tempName, setTempName] = useState("");
   const [tempExpected, setTempExpected] = useState(0);
   const [tempActual, setTempActual] = useState(0);
-  const rows = props.rows;
-  const setRows = (rows) => props.changeRows(rows);
+
+  const initialRows = props.rows.map((row, index) => ({
+    ...row,
+    id: row.id || index + 1_000, // avoid overlap with future manually added ids
+  }));
+
+  const [rows, setRows] = useState(initialRows);
+
+  useEffect(() => {
+    setRows(
+      props.rows.map((row, index) => ({
+        ...row,
+        id: row.id || index + 1_000,
+      }))
+    );
+  }, [props.rows, editing]);
+
+  const changeRowsParent = props.changeRows;
 
   const idRef = useRef(100);
 
@@ -21,16 +37,12 @@ const CustomTable = (props) => {
     return idRef.current;
   };
 
-  useEffect(() => {
-  }, [editing]);
-
   const handleEdit = (id) => {
+    const row = rows.find((r) => r.id === id);
     setEditing(id);
-    const row = rows.find(r => r.id === id);
     setTempName(row.name);
     setTempExpected(row.expected);
     setTempActual(row.actual);
-    setEditing(id);
     changeRowsParent(rows);
   };
 
@@ -39,6 +51,7 @@ const CustomTable = (props) => {
       row.id === id ? { ...row, name: tempName, expected: tempExpected, actual: tempActual } : row
     )
     setRows(newRows);
+    changeRowsParent(newRows);
     setEditing(-1);
   };
 
@@ -53,19 +66,16 @@ const CustomTable = (props) => {
       expected: 0,
       actual: 0
     }
-    setRows([...rows, newItem])
+    const updatedRows = [...rows, newItem];
+    setRows(updatedRows);
+    changeRowsParent(updatedRows);
   }
 
-  const handleDelete = (index) => {
-    let newRows = []
-    rows.forEach((row) => {
-      console.log(row, row.id, index)
-      if(!(row.id == index)) {
-        newRows = [...newRows, row]
-      }
-    })
-    setRows(newRows)
-  }
+  const handleDelete = (id) => {
+    const newRows = rows.filter(row => row.id !== id);
+    setRows(newRows);
+    changeRowsParent(newRows);
+  };
 
   return (
     <Container maxWidth="sm">
@@ -86,11 +96,11 @@ const CustomTable = (props) => {
 
           <TableBody>
             {
-              rows.map((income, index) => {
+              rows.map((income) => {
                 const isEditing = editing === income.id;
 
                 return (
-                  <TableRow key={index}>
+                  <TableRow key={income.id}>
                     {isEditing ? (
                       <>
                         <TableCell sx={{ color: "white" }}>
@@ -129,10 +139,10 @@ const CustomTable = (props) => {
                         <TableCell sx={{ color: "white" }}>{income.expected}</TableCell>
                         <TableCell sx={{ color: "white" }}>{income.actual}</TableCell>
                         <TableCell align="right">
-                          <IconButton onClick={() => handleEdit(index)} color="primary">
+                          <IconButton onClick={() => handleEdit(income.id)} color="primary">
                             <EditIcon />
                           </IconButton>
-                          <IconButton onClick={() => handleDelete(index)} color="error">
+                          <IconButton onClick={() => handleDelete(income.id)} color="error">
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
