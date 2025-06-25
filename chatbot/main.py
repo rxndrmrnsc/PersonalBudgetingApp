@@ -18,11 +18,8 @@ app.add_middleware(
 )
 
 # Initialize the Google Gemini LLM
-# Ensure you have your Google API Key set as an environment variable named GOOGLE_API_KEY
-# For example: os.environ["GOOGLE_API_KEY"] = "YOUR_GOOGLE_API_KEY_HERE"
 # It's recommended to load this from an environment variable for security.
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAEfo9xfrO6Vx5vVOmgOvHSnMbnzrEO6OA"
-
+os.environ["GOOGLE_API_KEY"] = os.getenv("API_KEY")
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-preview-05-20", temperature=0.7)
 
 
