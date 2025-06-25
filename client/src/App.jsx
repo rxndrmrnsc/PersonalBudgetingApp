@@ -69,7 +69,7 @@ export default function App() {
       <>
         {
           isCreating ? (
-            <CreateBudgetPage onBack={handleBackToDashboard} />
+            <CreateBudgetPage budgets={budgets} onBack={handleBackToDashboard} />
           ) : (
 
             activeBudgetId && activeBudget && activeBudget.id === activeBudgetId ? (

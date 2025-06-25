@@ -1,0 +1,121 @@
+user_id,month,category,sub_category,expected,actual
+1,2024-01-01,income,salary,2126,2243
+1,2024-01-01,income,freelance,1860,1851
+1,2024-01-01,expenses: needs,rent,206,183
+1,2024-01-01,expenses: needs,food,800,700
+1,2024-01-01,expenses: needs,transport,714,728
+1,2024-01-01,expenses: wants,entertainment,264,299
+1,2024-01-01,expenses: wants,clothes,137,152
+1,2024-01-01,expenses: wants,subscriptions,201,173
+1,2024-01-01,savings,emergency,199,222
+1,2024-01-01,savings,investments,307,348
+1,2024-02-01,income,salary,2515,2551
+1,2024-02-01,income,freelance,1805,1920
+1,2024-02-01,expenses: needs,rent,291,307
+1,2024-02-01,expenses: needs,food,376,352
+1,2024-02-01,expenses: needs,transport,559,533
+1,2024-02-01,expenses: wants,entertainment,71,72
+1,2024-02-01,expenses: wants,clothes,394,383
+1,2024-02-01,expenses: wants,subscriptions,108,119
+1,2024-02-01,savings,emergency,237,216
+1,2024-02-01,savings,investments,239,265
+1,2024-03-01,income,salary,1686,1879
+1,2024-03-01,income,freelance,1562,1691
+1,2024-03-01,expenses: needs,rent,666,630
+1,2024-03-01,expenses: needs,food,604,644
+1,2024-03-01,expenses: needs,transport,584,547
+1,2024-03-01,expenses: wants,entertainment,184,177
+1,2024-03-01,expenses: wants,clothes,378,360
+1,2024-03-01,expenses: wants,subscriptions,323,278
+1,2024-03-01,savings,emergency,138,131
+1,2024-03-01,savings,investments,291,256
+1,2024-04-01,income,salary,2369,2578
+1,2024-04-01,income,freelance,1897,1952
+1,2024-04-01,expenses: needs,rent,191,209
+1,2024-04-01,expenses: needs,food,554,478
+1,2024-04-01,expenses: needs,transport,134,127
+1,2024-04-01,expenses: wants,entertainment,130,146
+1,2024-04-01,expenses: wants,clothes,99,92
+1,2024-04-01,expenses: wants,subscriptions,51,57
+1,2024-04-01,savings,emergency,439,427
+1,2024-04-01,savings,investments,155,135
+1,2024-05-01,income,salary,2845,2895
+1,2024-05-01,income,freelance,1702,1848
+1,2024-05-01,expenses: needs,rent,829,748
+1,2024-05-01,expenses: needs,food,261,295
+1,2024-05-01,expenses: needs,transport,369,408
+1,2024-05-01,expenses: wants,entertainment,353,315
+1,2024-05-01,expenses: wants,clothes,264,286
+1,2024-05-01,expenses: wants,subscriptions,345,378
+1,2024-05-01,savings,emergency,257,271
+1,2024-05-01,savings,investments,329,305
+1,2024-06-01,income,salary,1216,1285
+1,2024-06-01,income,freelance,1187,1049
+1,2024-06-01,expenses: needs,rent,256,232
+1,2024-06-01,expenses: needs,food,912,840
+1,2024-06-01,expenses: needs,transport,956,821
+1,2024-06-01,expenses: wants,entertainment,393,335
+1,2024-06-01,expenses: wants,clothes,185,181
+1,2024-06-01,expenses: wants,subscriptions,112,106
+1,2024-06-01,savings,emergency,130,118
+1,2024-06-01,savings,investments,212,215
+1,2024-07-01,income,salary,1288,1473
+1,2024-07-01,income,freelance,2796,2866
+1,2024-07-01,expenses: needs,rent,330,321
+1,2024-07-01,expenses: needs,food,127,114
+1,2024-07-01,expenses: needs,transport,300,326
+1,2024-07-01,expenses: wants,entertainment,317,303
+1,2024-07-01,expenses: wants,clothes,82,85
+1,2024-07-01,expenses: wants,subscriptions,111,118
+1,2024-07-01,savings,emergency,342,389
+1,2024-07-01,savings,investments,221,222
+1,2024-08-01,income,salary,1960,2127
+1,2024-08-01,income,freelance,1642,1652
+1,2024-08-01,expenses: needs,rent,104,114
+1,2024-08-01,expenses: needs,food,602,653
+1,2024-08-01,expenses: needs,transport,970,1107
+1,2024-08-01,expenses: wants,entertainment,256,232
+1,2024-08-01,expenses: wants,clothes,395,377
+1,2024-08-01,expenses: wants,subscriptions,228,256
+1,2024-08-01,savings,emergency,401,443
+1,2024-08-01,savings,investments,290,298
+1,2024-09-01,income,salary,2020,1812
+1,2024-09-01,income,freelance,2923,3218
+1,2024-09-01,expenses: needs,rent,584,647
+1,2024-09-01,expenses: needs,food,330,295
+1,2024-09-01,expenses: needs,transport,270,258
+1,2024-09-01,expenses: wants,entertainment,85,85
+1,2024-09-01,expenses: wants,clothes,209,184
+1,2024-09-01,expenses: wants,subscriptions,236,228
+1,2024-09-01,savings,emergency,115,103
+1,2024-09-01,savings,investments,333,311
+1,2024-10-01,income,salary,2643,2802
+1,2024-10-01,income,freelance,2363,2339
+1,2024-10-01,expenses: needs,rent,739,720
+1,2024-10-01,expenses: needs,food,572,615
+1,2024-10-01,expenses: needs,transport,476,431
+1,2024-10-01,expenses: wants,entertainment,170,157
+1,2024-10-01,expenses: wants,clothes,282,242
+1,2024-10-01,expenses: wants,subscriptions,247,281
+1,2024-10-01,savings,emergency,460,527
+1,2024-10-01,savings,investments,367,348
+1,2024-11-01,income,salary,2248,2144
+1,2024-11-01,income,freelance,1683,1582
+1,2024-11-01,expenses: needs,rent,926,947
+1,2024-11-01,expenses: needs,food,707,780
+1,2024-11-01,expenses: needs,transport,212,242
+1,2024-11-01,expenses: wants,entertainment,101,97
+1,2024-11-01,expenses: wants,clothes,344,294
+1,2024-11-01,expenses: wants,subscriptions,162,174
+1,2024-11-01,savings,emergency,162,154
+1,2024-11-01,savings,investments,236,202
+1,2024-12-01,income,salary,1641,1614
+1,2024-12-01,income,freelance,2589,2936
+1,2024-12-01,expenses: needs,rent,324,276
+1,2024-12-01,expenses: needs,food,502,552
+1,2024-12-01,expenses: needs,transport,229,247
+1,2024-12-01,expenses: wants,entertainment,221,219
+1,2024-12-01,expenses: wants,clothes,247,241
+1,2024-12-01,expenses: wants,subscriptions,296,319
+1,2024-12-01,savings,emergency,488,537
+1,2024-12-01,savings,investments,450,420
