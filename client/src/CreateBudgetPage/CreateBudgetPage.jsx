@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import dayjs from 'dayjs';
 import { createBudget } from '../api/api';
+import { getPrediction } from '../api/pyApi';
 
 const CreateBudgetPage = (props) => {
   const USER_ID = "683c5b8e5179c85ea2c2c176";
@@ -16,73 +17,113 @@ const CreateBudgetPage = (props) => {
   const [date, setDate] = useState(dayjs('2025-07-01'));
   const [selectedPreviousId, setSelectedPreviousId] = useState("");
 
+
+  function transformPredictionToBudget(predictions) {
+    const budget = {
+      incomes: [],
+      expenses: {
+        needs: [],
+        wants: []
+      },
+      savings: []
+    };
+
+    predictions.forEach(({ category, sub_category, predicted }) => {
+      const entry = {
+        name: sub_category,
+        expected: parseFloat(predicted.toFixed(2)),
+        actual: 0
+      };
+
+      if (category === "income") {
+        budget.incomes.push(entry);
+      } else if (category === "expenses: needs") {
+        budget.expenses.needs.push(entry);
+      } else if (category === "expenses: wants") {
+        budget.expenses.wants.push(entry);
+      } else if (category === "savings") {
+        budget.savings.push(entry);
+      }
+    });
+
+    console.log('Transformed budget:', budget);
+    return budget;
+  }
+
   const handleModeChange = (_, newMode) => {
     if (newMode) setMode(newMode);
   };
 
-  const handleCreate = () => {
-    console.log('Creating new budget:', { mode, title, date });
+  const handleCreate = async () => {
+    console.log('Creating new budget:', { mode, title });
 
-    var baseData = {
+    let baseData = {
       title: title,
       month: monthNames[date.month()],
       year: date.year()
     };
 
-    if (mode === 'blank') {
-      // Logic for blank budget
-      console.log('Creating blank budget with title:', title);
-      baseData = {
-        ...baseData,
-        incomes: [
-          { name: 'Salary', expected: 0, actual: 0 }
-        ],
-        expenses: {
-          needs: [
-            { name: 'Rent', expected: 0, actual: 0 }
-          ],
-          wants: [
-            { name: 'Clothes', expected: 0, actual: 0 }
-          ],
-        },
-        savings: [
-          { name: 'Emergency Fund', expected: 0, actual: 0 }
-        ]
-      };
-    }
+    if (mode === 'template') {
+      try {
+        console.log('Using template budget');
+        const res = await getPrediction({ user_id: USER_ID });
+        const predictions = res.data.predicted_budget || [];
+        const transformed = transformPredictionToBudget(predictions);
 
-    if (mode === 'previous' && !selectedPreviousId) {
-      alert("Please select a budget to copy.");
-      return;
-    }
-
-    if (mode === 'previous') {
-      // Logic to copy from previous budget
-      console.log('Copying from previous budget ID:', selectedPreviousId);
+        baseData = {
+          ...baseData,
+          incomes: transformed.incomes,
+          expenses: transformed.expenses,
+          savings: transformed.savings
+        };
+      } catch (err) {
+        console.error('Failed to fetch predicted budget:', err);
+        alert("Failed to generate template. Please try again.");
+        return;
+      }
+    } else if (mode === 'previous') {
+      console.log('Copying from previous budget with ID:', selectedPreviousId);
+      if (!selectedPreviousId) {
+        alert("Please select a budget to copy.");
+        return;
+      }
       const previousBudget = props.budgets.find(b => b.id === selectedPreviousId);
       if (!previousBudget) {
         alert("Selected budget not found.");
         return;
       }
-
       baseData = {
         ...baseData,
         incomes: previousBudget.incomes,
         expenses: previousBudget.expenses,
         savings: previousBudget.savings
       };
+
+    } else if (mode === 'blank') {
+      console.log('Creating blank budget');
+      baseData = {
+        ...baseData,
+        incomes: [{ name: 'Salary', expected: 0, actual: 0 }],
+        expenses: {
+          needs: [{ name: 'Rent', expected: 0, actual: 0 }],
+          wants: [{ name: 'Clothes', expected: 0, actual: 0 }]
+        },
+        savings: [{ name: 'Emergency Fund', expected: 0, actual: 0 }]
+      };
+    } else {
+      console.error('Unknown mode:', mode);
     }
 
-
-    createBudget(USER_ID, baseData)
-      .then(res => {
-        console.log('Budget created:', res.data);
-        props.onBack();
-      })
-      .catch(err => {
-        console.error('API error:', err);
-      });
+    // Only create budget after all necessary data is ready
+    try {
+      const res = await createBudget(USER_ID, baseData);
+      console.log('Budget created:', res.data);
+      props.onBack();
+    } catch (err) {
+      console.error('API error:', err);
+    }
   };
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

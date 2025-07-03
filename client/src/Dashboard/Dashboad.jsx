@@ -3,7 +3,7 @@ import { Box, Card, CardContent, Typography, Button, Grid2 } from '@mui/material
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AddIcon from '@mui/icons-material/Add';
 
-const Dashboard = ({ budgets, onSelectBudget, setIsCreating, onCreateNewBudget }) => {
+const Dashboard = ({ budgets, onSelectBudget, setIsCreating, onCreateNewBudget, onCreateReport }) => {
   return (
     <Box sx={{ padding: 4, minHeight: '100vh' }}>
       <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold', mb: 4 }}>
@@ -26,6 +26,24 @@ const Dashboard = ({ budgets, onSelectBudget, setIsCreating, onCreateNewBudget }
               onClick={onCreateNewBudget}
             >
               Create New Budget
+            </Button>
+          </CardContent>
+        </Card>
+        <Card sx={{ backgroundColor: '#1e1e1e', color: 'white' }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <AddIcon sx={{ mr: 1 }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Need some extra insight?
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ backgroundColor: '#4f378b', '&:hover': { backgroundColor: '#3d2a6d' } }}
+              onClick={onCreateReport}
+            >
+              Create Report
             </Button>
           </CardContent>
         </Card>
