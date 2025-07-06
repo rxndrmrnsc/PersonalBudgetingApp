@@ -4,7 +4,6 @@ import com.budgeting.backend.model.entity.Budget;
 import com.budgeting.backend.model.entity.BudgetItem;
 import com.budgeting.backend.model.enums.Month;
 import com.budgeting.backend.repository.BudgetRepository;
-import com.budgeting.backend.resource.BudgetResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,8 @@ public class BudgetService {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public Budget create(Budget budget) {
+    public Budget create(String userId, Budget budget) {
+        budget.setUserId(userId);
         return budgetRepository.save(budget);
     }
 
@@ -49,18 +49,17 @@ public class BudgetService {
         if (byId.isEmpty() || !byId.get().getUserId().equals(userId)) {
             return ResponseEntity.notFound().build();
         }
-        return byId
-                .map(budget -> {
-                    budget.setTitle(updatedBudget.getTitle());
-                    budget.setYear(updatedBudget.getYear());
-                    budget.setMonth(updatedBudget.getMonth());
-                    budget.setIncomes(updatedBudget.getIncomes());
-                    budget.setExpenses(updatedBudget.getExpenses());
-                    budget.setSavings(updatedBudget.getSavings());
-                    budgetRepository.save(budget);
-                    return ResponseEntity.ok(create(budget));
-                })
-                .orElse(ResponseEntity.notFound().build());
+
+        Budget budget = byId.get();
+        budget.setTitle(updatedBudget.getTitle());
+        budget.setYear(updatedBudget.getYear());
+        budget.setMonth(updatedBudget.getMonth());
+        budget.setIncomes(updatedBudget.getIncomes());
+        budget.setExpenses(updatedBudget.getExpenses());
+        budget.setSavings(updatedBudget.getSavings());
+        budgetRepository.save(budget);
+
+        return ResponseEntity.ok(budget);
     }
 
     public ResponseEntity<Void> delete(String userId, String budgetId) {

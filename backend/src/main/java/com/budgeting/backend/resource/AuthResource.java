@@ -1,23 +1,28 @@
 package com.budgeting.backend.resource;
 
-import com.budgeting.backend.model.entity.User;
-import com.budgeting.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import com.budgeting.backend.model.entity.UserEntity;
+import com.budgeting.backend.service.UserAuthenticationService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthResource {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final UserAuthenticationService userAuthenticationService;
+
+    public AuthResource(UserAuthenticationService userAuthenticationService) {
+        this.userAuthenticationService = userAuthenticationService;
+    }
 
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "User registered";
+    public ResponseEntity<Void> register(
+            @RequestBody UserEntity userEntity
+    ) {
+        userAuthenticationService.registerUser(userEntity);
+        return ResponseEntity.noContent().build();
     }
 }

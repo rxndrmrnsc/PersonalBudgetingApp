@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/{userId}/budgets")
-//@CrossOrigin(origins = "http://localhost:5173") // Allow CORS
 public class BudgetResource {
 
     @Autowired
@@ -20,7 +19,6 @@ public class BudgetResource {
         this.budgetService = budgetService;
     }
 
-    // GET all budgets
     @GetMapping
     public List<Budget> getAllBudgets(
             @PathVariable String userId
@@ -28,7 +26,6 @@ public class BudgetResource {
         return budgetService.getAll(userId);
     }
 
-    // GET one budget by ID
     @GetMapping("/{budgetId}")
     public ResponseEntity<Budget> getBudgetById(
             @PathVariable String userId,
@@ -41,7 +38,7 @@ public class BudgetResource {
     public Budget createBudget(
             @PathVariable String userId,
             @RequestBody Budget budget) {
-        return budgetService.create(budget);
+        return budgetService.create(userId, budget);
     }
 
     // PUT update budget

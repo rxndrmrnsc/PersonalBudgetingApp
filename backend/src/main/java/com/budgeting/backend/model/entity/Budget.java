@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -27,7 +26,9 @@ public class Budget {
     private Expenses expenses;
     private List<BudgetItem> savings;
 
+
     public record Expenses(List<BudgetItem> needs,
-                           List<BudgetItem> wants) {}
+                           List<BudgetItem> wants) {
+    }
 }
 
