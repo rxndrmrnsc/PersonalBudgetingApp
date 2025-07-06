@@ -11,16 +11,20 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^6.4.3",
-    "@mui/material": "^6.4.11",
+    "@mui/material": "^6.4.12",
     "@mui/x-date-pickers": "^8.3.0",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
-    "recharts": "^2.15.3"
+    "recharts": "^2.15.3",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

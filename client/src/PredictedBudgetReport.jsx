@@ -1,17 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
-} from "@mui/material";
+import { Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { getPrediction } from "./api/pyApi";
