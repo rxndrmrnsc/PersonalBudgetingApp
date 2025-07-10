@@ -24,6 +24,13 @@ public class BudgetService {
         //addBudget();
         return budgetRepository.findAllByUserId(userId)
                 .stream()
+                .sorted((b1, b2) -> {
+                    int yearComparison = Integer.compare(b2.getYear(), b1.getYear());
+                    if (yearComparison != 0) {
+                        return yearComparison;
+                    }
+                    return b2.getMonth().compareTo(b1.getMonth());
+                })
                 .toList();
     }
 
