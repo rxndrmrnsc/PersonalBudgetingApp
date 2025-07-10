@@ -15,7 +15,7 @@ export default function PredictedBudgetReport({ userId, onBack }) {
     }
 
     useEffect(() => {
-        getPrediction({ user_id: userId })
+        getPrediction({ user_id: localStorage.getItem('userId') })
             .then(res => {
                 setBudgetData(res.data.predicted_budget || []);
             })

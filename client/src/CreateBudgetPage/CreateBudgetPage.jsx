@@ -9,7 +9,6 @@ import { createBudget } from '../api/api';
 import { getPrediction } from '../api/pyApi';
 
 const CreateBudgetPage = (props) => {
-  const USER_ID = "683c5b8e5179c85ea2c2c176";
   const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
 
   const [mode, setMode] = useState('blank');
@@ -66,7 +65,7 @@ const CreateBudgetPage = (props) => {
     if (mode === 'template') {
       try {
         console.log('Using template budget');
-        const res = await getPrediction({ user_id: USER_ID });
+        const res = await getPrediction({ user_id: localStorage.getItem('userId') });
         const predictions = res.data.predicted_budget || [];
         const transformed = transformPredictionToBudget(predictions);
 
@@ -88,6 +87,7 @@ const CreateBudgetPage = (props) => {
         return;
       }
       const previousBudget = props.budgets.find(b => b.id === selectedPreviousId);
+      console.log(previousBudget)
       if (!previousBudget) {
         alert("Selected budget not found.");
         return;
@@ -116,7 +116,7 @@ const CreateBudgetPage = (props) => {
 
     // Only create budget after all necessary data is ready
     try {
-      const res = await createBudget(USER_ID, baseData);
+      const res = await createBudget(baseData);
       console.log('Budget created:', res.data);
       props.onBack();
     } catch (err) {

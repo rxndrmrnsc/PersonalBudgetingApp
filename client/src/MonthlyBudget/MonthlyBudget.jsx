@@ -21,7 +21,7 @@ export default function MonthlyBudget(props) {
 
     const handleReturn = () => {
         console.log("Saving budget:", budget);
-        updateBudget("683c5b8e5179c85ea2c2c176", props.budgetId, budget)
+        updateBudget(props.budgetId, budget)
         props.onBack();
     }
 
