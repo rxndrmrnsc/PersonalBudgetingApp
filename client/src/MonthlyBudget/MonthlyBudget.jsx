@@ -21,7 +21,7 @@ export default function MonthlyBudget(props) {
 
     const handleReturn = () => {
         console.log("Saving budget:", budget);
-        updateBudget(props.budgetId, budget)
+        updateBudget(localStorage.getItem('userId'), props.budgetId, budget)
         props.onBack();
     }
 

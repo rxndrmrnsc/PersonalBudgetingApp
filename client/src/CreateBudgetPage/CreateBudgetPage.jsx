@@ -65,7 +65,7 @@ const CreateBudgetPage = (props) => {
     if (mode === 'template') {
       try {
         console.log('Using template budget');
-        const res = await getPrediction({ user_id: localStorage.getItem('userId') });
+        const res = await getPrediction(localStorage.getItem('userId'));
         const predictions = res.data.predicted_budget || [];
         const transformed = transformPredictionToBudget(predictions);
 
@@ -116,7 +116,8 @@ const CreateBudgetPage = (props) => {
 
     // Only create budget after all necessary data is ready
     try {
-      const res = await createBudget(baseData);
+      console.log("User id: " + localStorage.getItem('userId'));
+      const res = await createBudget(localStorage.getItem('userId'), baseData);
       console.log('Budget created:', res.data);
       props.onBack();
     } catch (err) {

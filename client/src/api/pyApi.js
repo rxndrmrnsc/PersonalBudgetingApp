@@ -8,4 +8,4 @@ const apiClient = axios.create({
 });
 
 export const getGeminiResponse = (body) => apiClient.post(`chat`, body);
-export const getPrediction = (body) => apiClient.post(`predict_full_budget`, {user_id: userId});
+export const getPrediction = (userId) => apiClient.post(`predict_full_budget`, {user_id: userId});
